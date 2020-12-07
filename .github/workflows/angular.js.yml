@@ -31,7 +31,7 @@ jobs:
        username: ubuntu
        port: 22
        key: ${{ secrets.PLANNING_FE }}
-       source: "dist/*"
+       source: "dist/fe-house-plan-approval-system/*"
        target: "fe/"
     # - name: deploy house-planning fe
     #   uses: appleboy/ssh-action@master
