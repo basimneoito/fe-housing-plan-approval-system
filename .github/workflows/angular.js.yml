@@ -1,7 +1,7 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Deployment WorkFlow
+name: Deployment WorkFlow FE
 
 on:
   push:
@@ -14,17 +14,34 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-    - name: deploy house-planning
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Use Node 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - name: Install dependencies
+      run: npm ci
+    - name: Build
+      run: npm run build:ci
+    - name: copy file via ssh key
+      uses: appleboy/scp-action@master
+      with:
+       host: 204.236.138.9 
+       username: ubuntu
+       port: 22
+       key: ${{ secrets.PLANNING_FE }}
+       source: "dist/*"
+       target: "fe/dist"
+    - name: deploy house-planning fe
       uses: appleboy/ssh-action@master
       with:
        host: 204.236.138.9
        username: ubuntu
-       key: ${{ secrets.PLANNING_BE}}
+       key: ${{ secrets.PLANNING_FE}}
        port: 22
        script: |
-         cd be/be-housing-plan-approval-system
-         git pull origin master
-         pm2 start app.js
+          sudo systemctl restart nginx
 
 
     # strategy:
@@ -48,3 +65,11 @@ jobs:
     #       REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
     #       REMOTE_USER: ${{ secrets.REMOTE_USER }}
     #       TARGET: ${{ secrets.REMOTE_TARGET }}
+
+
+
+
+
+  
+      
+
