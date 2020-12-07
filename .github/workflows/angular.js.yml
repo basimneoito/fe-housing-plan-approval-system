@@ -33,15 +33,15 @@ jobs:
        key: ${{ secrets.PLANNING_FE }}
        source: "dist/fe-housing-plan-approval-system/*"
        target: "fe"
-    - name: deploy house-planning fe
-      uses: appleboy/ssh-action@master
-      with:
-       host: 204.236.138.9
-       username: ubuntu
-       key: ${{ secrets.PLANNING_FE}}
-       port: 22
-       script: |
-          sudo systemctl restart nginx
+    # - name: deploy house-planning fe
+    #   uses: appleboy/ssh-action@master
+    #   with:
+    #    host: 204.236.138.9
+    #    username: ubuntu
+    #    key: ${{ secrets.PLANNING_FE}}
+    #    port: 22
+    #    script: |
+    #       sudo systemctl restart nginx
 
 
     # strategy:
